@@ -19,19 +19,21 @@ import { UserContextProvider } from './context/user.context';
 
 function App() {
 
-  const [memories, setMemories] = useLocalStorage("data");
+  const [memories, setMemories] = useLocalStorage("data", []);
 
   const [selectedMemory, setSelectedMemory] = useState(null);
 
   const addMemory = memory => {
+    const currentMemories = memories || [];  
+  
     if (!memory.id) {
-      setMemories([...mapMemories(memories), {
+      setMemories([...mapMemories(currentMemories), {
         ...memory,
         date: new Date(memory.date),
-        id: memories.length > 0 ? Math.max(...memories.map(i => i.id)) + 1 : 1
-       }]);
+        id: currentMemories.length > 0 ? Math.max(...currentMemories.map(i => i.id)) + 1 : 1
+      }]);
     } else {
-      setMemories([...mapMemories(memories).map(new_memory => {
+      setMemories([...mapMemories(currentMemories).map(new_memory => {
         if (new_memory.id === memory.id) {
           return {
             ...memory,
@@ -40,7 +42,7 @@ function App() {
         return new_memory;
       })]);
     }
-  }
+  };
 
   const deleteItem = (id) => {
     setMemories([...memories.filter(i => i.id !== id)])
