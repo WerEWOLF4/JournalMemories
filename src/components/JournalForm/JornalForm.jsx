@@ -34,10 +34,11 @@ function JournalForm({ onSubmit, data, onDelete }) {
     useEffect(() => {
       if (!data) {
         dispatchForm({ type: "CLEAR" });
-        dispatchForm({ type: "SET_VALUE", payload: { userId } });
+        dispatchForm({ type: "SET_VALUE", payload: { userId, date: today } });
+      } else {
+        dispatchForm({ type: "SET_VALUE", payload: { ...data } });
       }
-      dispatchForm({ type: "SET_VALUE", payload: { ...data } });
-    }, [data]);
+    }, [data, userId, today]);
 
     useEffect(() => {
       let timerId;
@@ -95,7 +96,7 @@ function JournalForm({ onSubmit, data, onDelete }) {
             <img src="/calendar.svg" alt="Icon Calendar"/>
             <span>Data</span>
            </label>
-          <Input type='date' ref={dateRef} isValid={isValid.date} name="date" onChange={onChange} value={values.date ? new Date(values.date).toISOString().slice(0, 10) : today} id="date"/>
+          <Input type='date' ref={dateRef} isValid={isValid.date} name="date" onChange={onChange} value={values.date ? new Date(values.date).toISOString().slice(0, 10) : ""} id="date"/>
          </div>
 
          <div className={styles["form-row"]}>

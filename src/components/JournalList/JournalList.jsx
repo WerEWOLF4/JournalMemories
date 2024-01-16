@@ -24,12 +24,13 @@ function JournalList({ memories, setMemory }) {
    }
 
   return <> 
-  {filteredMemories.map(memories => (
+  {filteredMemories
+         .map(memories => (
            <CardButton key={memories.id} onClick={() => setMemory(memories)}>
            <JournalItem
            title={memories.title}
            post={memories.post}
-           date={memories.data}
+           date={memories.date}
            />
           </CardButton>
         ))}</>;
